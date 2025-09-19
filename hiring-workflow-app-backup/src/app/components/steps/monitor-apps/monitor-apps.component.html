@@ -1,0 +1,252 @@
+<div class="monitor-apps-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Monitor Applications</h1>
+    <p class="subtitle">Track incoming applications and manage candidate pipeline effectively.</p>
+  </div>
+
+  <!-- Job Posting Status -->
+  <div class="status-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">📊</span>
+      </div>
+      <h2>Job Posting Status</h2>
+      <div class="status-badge live">{{jobPostingStatus.status}}</div>
+    </div>
+    
+    <div class="status-metrics">
+      <div class="metric">
+        <div class="metric-value">{{jobPostingStatus.totalApplicants}}</div>
+        <div class="metric-label">Total Applicants</div>
+        <div class="metric-trend">+{{jobPostingStatus.applicationsToday}} today</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">{{jobPostingStatus.views}}</div>
+        <div class="metric-label">Job Views</div>
+        <div class="metric-trend">+{{jobPostingStatus.viewsToday}} today</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">{{jobPostingStatus.daysActive}}</div>
+        <div class="metric-label">Days Active</div>
+        <div class="metric-trend">{{jobPostingStatus.conversionRate}} conversion</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline Metrics -->
+  <div class="pipeline-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">🔄</span>
+      </div>
+      <h2>Pipeline Metrics</h2>
+    </div>
+    
+    <div class="pipeline-stages">
+      <div class="pipeline-stage">
+        <div class="stage-count">{{pipelineMetrics.applied}}</div>
+        <div class="stage-label">Applied</div>
+        <div class="stage-bar">
+          <div class="stage-fill" [style.width.%]="(pipelineMetrics.applied / totalCandidates) * 100"></div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-count">{{pipelineMetrics.screening}}</div>
+        <div class="stage-label">Screening</div>
+        <div class="stage-bar">
+          <div class="stage-fill" [style.width.%]="(pipelineMetrics.screening / totalCandidates) * 100"></div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-count">{{pipelineMetrics.interview}}</div>
+        <div class="stage-label">Interview</div>
+        <div class="stage-bar">
+          <div class="stage-fill" [style.width.%]="(pipelineMetrics.interview / totalCandidates) * 100"></div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-count">{{pipelineMetrics.offer}}</div>
+        <div class="stage-label">Offer</div>
+        <div class="stage-bar">
+          <div class="stage-fill" [style.width.%]="(pipelineMetrics.offer / totalCandidates) * 100"></div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="stage-count">{{pipelineMetrics.hired}}</div>
+        <div class="stage-label">Hired</div>
+        <div class="stage-bar">
+          <div class="stage-fill hired" [style.width.%]="(pipelineMetrics.hired / totalCandidates) * 100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications & Alerts -->
+  <div class="alerts-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">🔔</span>
+      </div>
+      <h2>Notifications & Alerts</h2>
+    </div>
+    
+    <div class="alerts-list">
+      <div class="alert-item" *ngFor="let alert of notifications" [ngClass]="alert.type">
+        <div class="alert-icon">
+          <span *ngIf="alert.type === 'urgent'">⚠️</span>
+          <span *ngIf="alert.type === 'reminder'">⏰</span>
+          <span *ngIf="alert.type === 'approval'">✋</span>
+          <span *ngIf="alert.type === 'followup'">📧</span>
+        </div>
+        <div class="alert-content">
+          <div class="alert-message">{{alert.message}}</div>
+          <div class="alert-count" *ngIf="alert.count">{{alert.count}} items</div>
+        </div>
+        <button class="alert-action-btn" (click)="handleAlert(alert)">{{alert.action}}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidate Activity -->
+  <div class="activity-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">📋</span>
+      </div>
+      <h2>Recent Candidate Activity</h2>
+    </div>
+    
+    <div class="activity-timeline">
+      <div class="activity-item" *ngFor="let activity of candidateActivity">
+        <div class="activity-time">{{activity.time}}</div>
+        <div class="activity-content">
+          <div class="activity-icon" [ngClass]="activity.type"></div>
+          <div class="activity-text">{{activity.activity}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidates List with Filters -->
+  <div class="candidates-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">👥</span>
+      </div>
+      <h2>All Candidates</h2>
+      <div class="header-controls">
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="filterCandidates()">
+          <option value="">All Status</option>
+          <option value="Applied">Applied</option>
+          <option value="Screening">Screening</option>
+          <option value="Interview">Interview</option>
+          <option value="Shortlisted">Shortlisted</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search candidates..."
+          [(ngModel)]="searchQuery"
+          (input)="searchCandidates()"
+        >
+        <button class="export-btn">Export</button>
+      </div>
+    </div>
+    
+    <div class="candidates-table">
+      <div class="table-header">
+        <div class="header-cell">Candidate</div>
+        <div class="header-cell">Score</div>
+        <div class="header-cell">Stage</div>
+        <div class="header-cell">Applied Date</div>
+        <div class="header-cell">Location</div>
+        <div class="header-cell">Actions</div>
+      </div>
+      
+      <div class="table-row" *ngFor="let candidate of filteredCandidates">
+        <div class="candidate-cell">
+          <div class="candidate-avatar">{{candidate.name.charAt(0)}}</div>
+          <div class="candidate-details">
+            <div class="candidate-name">{{candidate.name}}</div>
+            <div class="candidate-title">{{candidate.title}}</div>
+          </div>
+        </div>
+        <div class="score-cell">
+          <div class="score-badge" [ngClass]="getScoreClass(candidate.score)">
+            {{candidate.score}}%
+          </div>
+        </div>
+        <div class="stage-cell">
+          <span class="stage-badge" [ngClass]="getStageClass(candidate.stage)">
+            {{candidate.stage}}
+          </span>
+        </div>
+        <div class="date-cell">{{candidate.appliedDate}}</div>
+        <div class="location-cell">{{candidate.location}}</div>
+        <div class="actions-cell">
+          <button class="action-btn primary" (click)="reviewCandidate(candidate)">Review</button>
+          <button class="action-btn secondary" (click)="shortlistCandidate(candidate)">
+            {{candidate.status === 'Shortlisted' ? 'Shortlisted' : 'Shortlist'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Status -->
+  <div class="integration-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">🔗</span>
+      </div>
+      <h2>Integration Status</h2>
+    </div>
+    
+    <div class="integration-list">
+      <div class="integration-item" *ngFor="let integration of integrationStatus">
+        <div class="integration-info">
+          <div class="integration-name">{{integration.platform}}</div>
+          <div class="integration-sync">Last sync: {{integration.lastSync}}</div>
+        </div>
+        <div class="integration-status" [ngClass]="integration.status.toLowerCase()">
+          {{integration.status}}
+        </div>
+        <div class="integration-count" *ngIf="integration.newApplications > 0">
+          +{{integration.newApplications}} new
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diversity Stats -->
+  <div class="diversity-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">🌐</span>
+      </div>
+      <h2>Diversity & Compliance</h2>
+    </div>
+    
+    <div class="diversity-stats">
+      <div class="diversity-section">
+        <h3>Gender Distribution</h3>
+        <div class="stat-row">
+          <span>Male: {{diversityStats.genderMix.male}}</span>
+          <span>Female: {{diversityStats.genderMix.female}}</span>
+        </div>
+      </div>
+      <div class="diversity-section">
+        <h3>Experience Levels</h3>
+        <div class="stat-row" *ngFor="let exp of getExperienceArray()">
+          <span>{{exp.level}}: {{exp.count}}</span>
+        </div>
+      </div>
+      <div class="diversity-section">
+        <h3>Diversity Score</h3>
+        <div class="diversity-score good">{{diversityStats.diversityScore}}</div>
+      </div>
+    </div>
+  </div>
+</div>

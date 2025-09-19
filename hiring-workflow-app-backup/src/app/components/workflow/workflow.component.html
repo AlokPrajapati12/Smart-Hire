@@ -1,0 +1,64 @@
+<div class="background-overlay">
+  <div class="workflow-container">
+    <div class="workflow-header">
+      <h1>Workflow Progress</h1>
+      <div class="progress-info">
+        <div class="progress-text">Progress: 12.5%</div>
+        <div class="duration-text">Est. Duration: 2-4 weeks</div>
+        <div class="status-badge status-in-progress">In Progress</div>
+      </div>
+    </div>
+
+    <div class="workflow-content">
+      <app-sidebar [currentStep]="currentStep" [steps]="workflowSteps" (stepClick)="onStepClick($event)">
+      </app-sidebar>
+
+      <main class="main-content">
+        <div class="step-content">
+          <app-create-job *ngIf="currentStep === 1"></app-create-job>
+          <app-review-approve *ngIf="currentStep === 2"></app-review-approve>
+          <app-post-job *ngIf="currentStep === 3"></app-post-job>
+          <app-monitor-apps *ngIf="currentStep === 4"></app-monitor-apps>
+          <app-shortlist *ngIf="currentStep === 5"></app-shortlist>
+          <app-interviews *ngIf="currentStep === 6"></app-interviews>
+          <app-send-offer *ngIf="currentStep === 7"></app-send-offer>
+          <app-onboarding *ngIf="currentStep === 8"></app-onboarding>
+        </div>
+
+        <!-- ✅ UPDATE THE NAVIGATION SECTION -->
+        <div class="step-navigation">
+          <div class="left">
+            <button [disabled]="currentStep === 1" (click)="previousStep()">
+              ← Previous
+            </button>
+          </div>
+
+          <div class="center">Step {{currentStep}} of 8</div>
+
+          <div class="right">
+            <!-- For Step 1: Generate Job Description -->
+            <button *ngIf="currentStep === 1" color="primary" (click)="generateJD()">
+              ✨ Generate Job Description
+            </button>
+
+            <!-- For Step 2: Approve & Continue -->
+            <button *ngIf="currentStep === 2" color="primary" (click)="nextStep()">
+              ✓ {{nextButtonText}}
+            </button>
+
+            <!-- For Step 3: Start Monitoring -->
+            <button *ngIf="currentStep === 3" color="primary" (click)="nextStep()">
+              📊 {{nextButtonText}}
+            </button>
+
+            <!-- For Other Steps: Regular Next -->
+            <button *ngIf="currentStep !== 1 && currentStep !== 2 && currentStep !== 3" color="primary"
+              (click)="nextStep()">
+              → Next
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

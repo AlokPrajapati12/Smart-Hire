@@ -1,0 +1,141 @@
+<div class="shortlist-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Shortlist Candidates</h1>
+    <p class="subtitle">Review and select the most promising candidates from your application pool.</p>
+  </div>
+
+  <!-- Candidate Pool -->
+  <div class="candidate-pool-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">👥</span>
+      </div>
+      <h2>Candidate Pool</h2>
+    </div>
+    
+    <div class="candidates-list">
+      <!-- Sarah Chen -->
+      <div class="candidate-item">
+        <div class="candidate-info">
+          <div class="candidate-name">Sarah Chen</div>
+          <div class="candidate-title">Senior ML Engineer</div>
+        </div>
+        <div class="candidate-score">
+          <div class="score-value">95</div>
+          <div class="score-label">Score</div>
+        </div>
+        <div class="candidate-status">
+          <button class="status-btn shortlisted" disabled>Shortlisted</button>
+        </div>
+        <div class="candidate-actions">
+          <button class="action-btn remove" (click)="removeFromShortlist(1)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Michael Rodriguez -->
+      <div class="candidate-item">
+        <div class="candidate-info">
+          <div class="candidate-name">Michael Rodriguez</div>
+          <div class="candidate-title">AI Research Scientist</div>
+        </div>
+        <div class="candidate-score">
+          <div class="score-value">92</div>
+          <div class="score-label">Score</div>
+        </div>
+        <div class="candidate-status">
+          <button class="status-btn shortlisted" disabled>Shortlisted</button>
+        </div>
+        <div class="candidate-actions">
+          <button class="action-btn remove" (click)="removeFromShortlist(2)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Emily Wang -->
+      <div class="candidate-item">
+        <div class="candidate-info">
+          <div class="candidate-name">Emily Wang</div>
+          <div class="candidate-title">Deep Learning Engineer</div>
+        </div>
+        <div class="candidate-score">
+          <div class="score-value">88</div>
+          <div class="score-label">Score</div>
+        </div>
+        <div class="candidate-status">
+          <button class="status-btn under-review">Under Review</button>
+        </div>
+        <div class="candidate-actions">
+          <button class="action-btn shortlist" (click)="addToShortlist(3)">Shortlist</button>
+        </div>
+      </div>
+
+      <!-- David Kim -->
+      <div class="candidate-item">
+        <div class="candidate-info">
+          <div class="candidate-name">David Kim</div>
+          <div class="candidate-title">Computer Vision Engineer</div>
+        </div>
+        <div class="candidate-score">
+          <div class="score-value">87</div>
+          <div class="score-label">Score</div>
+        </div>
+        <div class="candidate-status">
+          <button class="status-btn shortlisted" disabled>Shortlisted</button>
+        </div>
+        <div class="candidate-actions">
+          <button class="action-btn remove" (click)="removeFromShortlist(4)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Alex Johnson -->
+      <div class="candidate-item">
+        <div class="candidate-info">
+          <div class="candidate-name">Alex Johnson</div>
+          <div class="candidate-title">NLP Specialist</div>
+        </div>
+        <div class="candidate-score">
+          <div class="score-value">85</div>
+          <div class="score-label">Score</div>
+        </div>
+        <div class="candidate-status">
+          <button class="status-btn under-review">Under Review</button>
+        </div>
+        <div class="candidate-actions">
+          <button class="action-btn shortlist" (click)="addToShortlist(5)">Shortlist</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Steps -->
+  <div class="next-steps-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <span class="icon">⏰</span>
+      </div>
+      <h2>Next Steps</h2>
+    </div>
+    
+    <div class="next-steps-list">
+      <div class="next-step-item">
+        <div class="step-content">
+          <div class="step-title">Schedule Interviews</div>
+          <div class="step-description">{{shortlistedCount}} candidates ready for interviews</div>
+        </div>
+        <div class="step-action">
+          <button class="step-btn" (click)="scheduleInterviews()">Schedule</button>
+        </div>
+      </div>
+      
+      <div class="next-step-item">
+        <div class="step-content">
+          <div class="step-title">Send Notifications</div>
+          <div class="step-description">Notify shortlisted candidates</div>
+        </div>
+        <div class="step-action">
+          <button class="step-btn" (click)="sendNotifications()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

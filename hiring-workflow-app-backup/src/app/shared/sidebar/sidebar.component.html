@@ -1,0 +1,25 @@
+<aside class="sidebar">
+   <nav class="workflow-nav" *ngIf="steps">
+     <div class="wf-modal-content"></div>
+    <div
+      *ngFor="let step of steps"
+      class="nav-item"
+      [ngClass]="{
+        'nav-item--active': isStepActive(step.id),
+        'nav-item--completed': isStepCompleted(step),
+        'nav-item--disabled': !canNavigateToStep(step.id)
+      }"
+      (click)="canNavigateToStep(step.id) ? onStepClick(step.id) : null">
+      
+      <div class="nav-item__indicator">
+        <span class="step-number" *ngIf="!isStepCompleted(step)">{{step.id}}</span>
+        <mat-icon *ngIf="isStepCompleted(step)" class="check-icon">check</mat-icon>
+      </div>
+      
+      <div class="nav-item__content">
+        <h4 class="nav-item__title">{{step.title}}</h4>
+        <p class="nav-item__subtitle">{{step.subtitle}}</p>
+      </div>
+    </div>
+  </nav>
+</aside>

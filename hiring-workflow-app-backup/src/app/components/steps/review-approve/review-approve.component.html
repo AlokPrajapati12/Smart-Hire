@@ -1,0 +1,59 @@
+<div class="container">
+  <!-- Show Review Page -->
+  <div *ngIf="!isApproved">
+    <h2>Review & Approve Job Description</h2>
+    <p class="subtitle">Review the generated job description and make any necessary edits before approval.</p>
+
+    <div *ngIf="jobData$ | async as jobData" class="content">
+      <!-- Job Details Summary Card -->
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <mat-icon>description</mat-icon>
+          <mat-card-title>Job Details Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="details-grid">
+            <div class="detail-item">
+              <span class="label">Company:</span>
+              <span class="value">{{jobData.companyName}}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Position:</span>
+              <span class="value">{{jobData.jobTitle}}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Location:</span>
+              <span class="value">{{jobData.location}}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Type:</span>
+              <span class="value">{{jobData.employmentType}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Generated Job Description Card -->
+      <mat-card class="description-card">
+        <mat-card-header class="custom-header">
+          <div class="header-left">
+            <mat-icon>description</mat-icon>
+            <mat-card-title>Generated Job Description</mat-card-title>
+          </div>
+          <div class="header-right">
+            <button mat-stroked-button color="primary" (click)="edit()">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <pre class="job-description">{{jobData.jobDescription}}</pre>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="!(jobData$ | async)" class="no-data">
+      <p>No job data available. Please complete the previous step.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,337 @@
+<div class="send-offer-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Send Offer Letter</h1>
+    <p class="subtitle">Prepare and send the job offer to your selected candidate.</p>
+  </div>
+
+  <div class="offer-layout">
+    <!-- Left Panel - Candidate & Offer Details -->
+    <div class="offer-details-panel">
+      <!-- Selected Candidate -->
+      <div class="candidate-section">
+        <div class="section-header">
+          <span class="icon">📄</span>
+          <h2>Selected Candidate</h2>
+        </div>
+        
+        <div class="candidate-card selected" *ngIf="selectedCandidate">
+          <div class="candidate-avatar">
+            <img [src]="selectedCandidate.avatar || '/assets/default-avatar.png'" 
+                 [alt]="selectedCandidate.name"
+                 onerror="this.src='/assets/default-avatar.png'">
+          </div>
+          <div class="candidate-info">
+            <div class="candidate-name">{{selectedCandidate.name}}</div>
+            <div class="candidate-title">{{selectedCandidate.title}} • {{selectedCandidate.interviewScore}}/10 Interview Score</div>
+            <div class="candidate-experience">{{selectedCandidate.experience}} • {{selectedCandidate.education}}</div>
+          </div>
+          <div class="selection-badge">
+            <span class="badge selected">Selected</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compensation Package -->
+      <div class="compensation-section">
+        <div class="section-header">
+          <span class="icon">💰</span>
+          <h2>Compensation Package</h2>
+        </div>
+        
+        <form class="compensation-form">
+          <div class="form-group">
+            <label>Base Salary (Annual)</label>
+            <div class="currency-input">
+              <span class="currency-symbol">₹</span>
+              <input type="number" [(ngModel)]="offerDetails.baseSalary" name="baseSalary" value="150000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Annual Bonus</label>
+            <div class="currency-input">
+              <span class="currency-symbol">₹</span>
+              <input type="number" [(ngModel)]="offerDetails.annualBonus" name="annualBonus" value="25000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Equity (%)</label>
+            <input type="number" step="0.1" [(ngModel)]="offerDetails.equity" name="equity" value="0.5">
+          </div>
+
+          <div class="total-package">
+            <div class="total-label">Total Package</div>
+            <div class="total-amount">₹{{calculateTotalPackage() | number}}</div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Benefits & Terms -->
+      <div class="benefits-section">
+        <div class="section-header">
+          <h2>Benefits & Terms</h2>
+        </div>
+        
+        <div class="benefits-form">
+          <div class="form-group">
+            <label>Benefits Package</label>
+            <div class="benefits-checkboxes">
+              <div class="benefit-option">
+                <input type="checkbox" id="health" [(ngModel)]="offerDetails.benefits.healthInsurance" name="health" checked>
+                <label for="health">Health Insurance</label>
+              </div>
+              <div class="benefit-option">
+                <input type="checkbox" id="retirement" [(ngModel)]="offerDetails.benefits.retirement" name="retirement" checked>
+                <label for="retirement">401(k) Match</label>
+              </div>
+              <div class="benefit-option">
+                <input type="checkbox" id="remote" [(ngModel)]="offerDetails.benefits.remoteWork" name="remote" checked>
+                <label for="remote">Remote Work</label>
+              </div>
+              <div class="benefit-option">
+                <input type="checkbox" id="stock" [(ngModel)]="offerDetails.benefits.stockOptions" name="stock" checked>
+                <label for="stock">Stock Options</label>
+              </div>
+              <div class="benefit-option">
+                <input type="checkbox" id="vacation" [(ngModel)]="offerDetails.benefits.paidTimeOff" name="vacation">
+                <label for="vacation">Paid Time Off</label>
+              </div>
+              <div class="benefit-option">
+                <input type="checkbox" id="learning" [(ngModel)]="offerDetails.benefits.learningBudget" name="learning">
+                <label for="learning">Learning Budget</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" [(ngModel)]="offerDetails.startDate" name="startDate">
+            </div>
+            <div class="form-group">
+              <label>Work Location</label>
+              <select [(ngModel)]="offerDetails.workLocation" name="workLocation">
+                <option value="Remote">Remote</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Office">Office</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Offer Preview & Send -->
+    <div class="offer-preview-panel">
+      <!-- Offer Summary -->
+      <div class="offer-summary-card">
+        <h2>Offer Summary</h2>
+        
+        <div class="summary-metrics">
+          <div class="metric">
+            <div class="metric-value">₹{{offerDetails.baseSalary | number}}</div>
+            <div class="metric-label">Base Salary</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">₹{{offerDetails.annualBonus | number}}</div>
+            <div class="metric-label">Annual Bonus</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">{{offerDetails.equity}}%</div>
+            <div class="metric-label">Equity</div>
+          </div>
+          <div class="metric total">
+            <div class="metric-value">₹{{calculateTotalPackage() | number}}</div>
+            <div class="metric-label">Total Package</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Status -->
+      <div class="approval-status-card">
+        <div class="approval-header">
+          <h3>Approval Status</h3>
+          <span class="approval-badge" [ngClass]="approvalStatus.toLowerCase()">
+            {{approvalStatus}}
+          </span>
+        </div>
+        
+        <div class="approval-progress">
+          <div class="approval-step" [ngClass]="{ 'completed': isStepCompleted(1), 'active': currentApprovalStep === 1 }">
+            <div class="step-icon">✓</div>
+            <div class="step-text">HR Review</div>
+          </div>
+          <div class="approval-step" [ngClass]="{ 'completed': isStepCompleted(2), 'active': currentApprovalStep === 2 }">
+            <div class="step-icon">✓</div>
+            <div class="step-text">Manager Approval</div>
+          </div>
+          <div class="approval-step" [ngClass]="{ 'completed': isStepCompleted(3), 'active': currentApprovalStep === 3 }">
+            <div class="step-icon">✓</div>
+            <div class="step-text">Final Review</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Steps -->
+      <div class="final-steps-card">
+        <h2>Final Steps</h2>
+        
+        <div class="step-items">
+          <div class="step-item">
+            <div class="step-content">
+              <div class="step-title">Review Legal Terms</div>
+              <div class="step-description">Ensure all legal requirements are met</div>
+            </div>
+            <button class="step-action-btn" (click)="reviewLegalTerms()">Review</button>
+          </div>
+
+          <div class="step-item">
+            <div class="step-content">
+              <div class="step-title">Generate PDF</div>
+              <div class="step-description">Create formal offer letter document</div>
+            </div>
+            <button class="step-action-btn" (click)="generatePDF()">Generate</button>
+          </div>
+
+          <div class="step-item">
+            <div class="step-content">
+              <div class="step-title">Schedule Call</div>
+              <div class="step-description">Discuss offer details with candidate</div>
+            </div>
+            <button class="step-action-btn" (click)="scheduleCall()">Schedule</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Communication Options -->
+      <div class="communication-card">
+        <h3>Send Offer Letter</h3>
+        
+        <div class="send-options">
+          <div class="option-group">
+            <label>Delivery Method</label>
+            <div class="delivery-options">
+              <div class="delivery-option">
+                <input type="radio" id="email" value="email" [(ngModel)]="sendOptions.method" name="delivery">
+                <label for="email">📧 Email</label>
+              </div>
+              <div class="delivery-option">
+                <input type="radio" id="portal" value="portal" [(ngModel)]="sendOptions.method" name="delivery">
+                <label for="portal">🌐 Candidate Portal</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email Subject</label>
+            <input type="text" [(ngModel)]="sendOptions.emailSubject" name="subject" 
+                   placeholder="Job Offer - {{jobData.jobTitle}} Position">
+          </div>
+
+          <div class="form-group">
+            <label>Personal Message</label>
+            <textarea [(ngModel)]="sendOptions.personalMessage" name="message" rows="4" 
+                      placeholder="Dear {{selectedCandidate?.name}}, 
+
+We are excited to extend this offer for the {{jobData.jobTitle}} position..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>CC Recipients</label>
+            <div class="cc-options">
+              <div class="cc-option">
+                <input type="checkbox" id="cc-hr" [(ngModel)]="sendOptions.ccHR" name="ccHR">
+                <label for="cc-hr">HR Team</label>
+              </div>
+              <div class="cc-option">
+                <input type="checkbox" id="cc-manager" [(ngModel)]="sendOptions.ccManager" name="ccManager">
+                <label for="cc-manager">Hiring Manager</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="attachments-section">
+            <label>Attachments</label>
+            <div class="attachment-list">
+              <div class="attachment-item">
+                <span class="attachment-icon">📄</span>
+                <span class="attachment-name">Offer Letter.pdf</span>
+                <span class="attachment-status">Ready</span>
+              </div>
+              <div class="attachment-item">
+                <span class="attachment-icon">📋</span>
+                <span class="attachment-name">Employee Handbook.pdf</span>
+                <span class="attachment-status">Ready</span>
+              </div>
+              <div class="attachment-item">
+                <span class="attachment-icon">🔒</span>
+                <span class="attachment-name">NDA Agreement.pdf</span>
+                <span class="attachment-status">Ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Send Actions -->
+      <div class="send-actions">
+        <button class="action-btn secondary" (click)="previewOffer()">
+          <span class="icon">👁️</span>
+          Preview
+        </button>
+        <button class="action-btn secondary" (click)="downloadOffer()">
+          <span class="icon">⬇️</span>
+          Download
+        </button>
+        <button class="action-btn primary" 
+                [disabled]="!canSendOffer()" 
+                (click)="sendOffer()">
+          <span class="icon">✉️</span>
+          Send Offer
+        </button>
+      </div>
+
+      <!-- Offer Status Tracking -->
+      <div class="status-tracking-card" *ngIf="offerStatus !== 'Draft'">
+        <h3>Offer Status</h3>
+        
+        <div class="status-timeline">
+          <div class="timeline-item completed">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Offer Drafted</div>
+              <div class="timeline-time">{{offerTimeline.drafted}}</div>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [ngClass]="{ 'completed': isStatusCompleted('Sent') }">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Sent to Candidate</div>
+              <div class="timeline-time">{{offerTimeline.sent || 'Pending'}}</div>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [ngClass]="{ 'completed': isStatusCompleted('Viewed') }">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Viewed by Candidate</div>
+              <div class="timeline-time">{{offerTimeline.viewed || 'Pending'}}</div>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [ngClass]="{ 'completed': isStatusCompleted('Responded') }">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Response Received</div>
+              <div class="timeline-time">{{offerTimeline.responded || 'Pending'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Send Offer Component -->

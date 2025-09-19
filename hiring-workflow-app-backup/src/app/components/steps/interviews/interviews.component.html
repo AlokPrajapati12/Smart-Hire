@@ -1,0 +1,284 @@
+<div class="interviews-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Conduct Interviews</h1>
+    <p class="subtitle">Interview shortlisted candidates and evaluate their potential for the role.</p>
+  </div>
+
+  <div class="interviews-layout">
+    <!-- Left Panel - Candidates List -->
+    <div class="candidates-panel">
+      <div class="panel-header">
+        <h2>Shortlisted Candidates</h2>
+        <div class="filter-controls">
+          <select [(ngModel)]="selectedInterviewStatus" (change)="filterByStatus()">
+            <option value="">All Status</option>
+            <option value="Scheduled">Scheduled</option>
+            <option value="Completed">Completed</option>
+            <option value="Feedback Pending">Feedback Pending</option>
+            <option value="Not Scheduled">Not Scheduled</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="candidates-list">
+        <div 
+          class="candidate-card" 
+          *ngFor="let candidate of filteredCandidates"
+          [ngClass]="{ 'selected': selectedCandidate?.id === candidate.id }"
+          (click)="selectCandidate(candidate)">
+          
+          <div class="candidate-avatar">
+            <img [src]="candidate.avatar || '/assets/default-avatar.png'" 
+                 [alt]="candidate.name" 
+                 onerror="this.src='/assets/default-avatar.png'">
+          </div>
+          
+          <div class="candidate-info">
+            <div class="candidate-name">{{candidate.name}}</div>
+            <div class="candidate-title">{{candidate.title}}</div>
+            <div class="candidate-score">Score: {{candidate.score}}%</div>
+          </div>
+          
+          <div class="interview-status">
+            <span class="status-badge" [ngClass]="getInterviewStatusClass(candidate.id)">
+              {{getInterviewStatus(candidate.id)}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Interview Details -->
+    <div class="interview-panel" *ngIf="selectedCandidate">
+      <div class="panel-header">
+        <h2>Interview Details - {{selectedCandidate.name}}</h2>
+        <div class="candidate-actions">
+          <button class="action-btn secondary" (click)="viewResume()">
+            <span class="icon">📄</span> View Resume
+          </button>
+          <button class="action-btn secondary" (click)="viewPortfolio()">
+            <span class="icon">🎨</span> Portfolio
+          </button>
+        </div>
+      </div>
+
+      <!-- Candidate Summary -->
+      <div class="candidate-summary">
+        <div class="summary-section">
+          <h3>Candidate Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Position Applied:</label>
+              <span>{{jobData.jobTitle}}</span>
+            </div>
+            <div class="info-item">
+              <label>Current Status:</label>
+              <span class="status-text">{{selectedCandidate.status}}</span>
+            </div>
+            <div class="info-item">
+              <label>Location:</label>
+              <span>{{selectedCandidate.location}}</span>
+            </div>
+            <div class="info-item">
+              <label>Experience:</label>
+              <span>{{selectedCandidate.experience}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview Scheduling -->
+      <div class="scheduling-section">
+        <h3>Interview Scheduling</h3>
+        <form class="scheduling-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Interview Date:</label>
+              <input type="date" [(ngModel)]="interviewForm.date" name="date">
+            </div>
+            <div class="form-group">
+              <label>Interview Time:</label>
+              <input type="time" [(ngModel)]="interviewForm.time" name="time">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Interview Type:</label>
+              <select [(ngModel)]="interviewForm.type" name="type">
+                <option value="Screening">Screening Interview</option>
+                <option value="Technical">Technical Interview</option>
+                <option value="HR">HR / Behavioral Interview</option>
+                <option value="Panel">Final / Panel Interview</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Interview Mode:</label>
+              <select [(ngModel)]="interviewForm.mode" name="mode">
+                <option value="Video">Video Call</option>
+                <option value="In-person">In-person</option>
+                <option value="Phone">Phone Call</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Interviewer(s):</label>
+            <div class="interviewer-selection">
+              <div class="interviewer-option" *ngFor="let interviewer of availableInterviewers">
+                <input type="checkbox" 
+                       [id]="'interviewer-' + interviewer.id"
+                       [(ngModel)]="interviewer.selected"
+                       name="interviewers">
+                <label [for]="'interviewer-' + interviewer.id">
+                  {{interviewer.name}} ({{interviewer.role}})
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="interviewForm.mode === 'Video'">
+            <label>Meeting Link:</label>
+            <input type="url" [(ngModel)]="interviewForm.meetingLink" 
+                   name="meetingLink" placeholder="Zoom/Teams/Meet link">
+          </div>
+
+          <div class="form-group" *ngIf="interviewForm.mode === 'In-person'">
+            <label>Location:</label>
+            <input type="text" [(ngModel)]="interviewForm.location" 
+                   name="location" placeholder="Office address or room number">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn primary" (click)="scheduleInterview()">
+              <span class="icon">📅</span> Schedule Interview
+            </button>
+            <button type="button" class="btn secondary" (click)="sendInvitation()">
+              <span class="icon">✉️</span> Send Invitation
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Evaluation Section -->
+      <div class="evaluation-section" *ngIf="hasScheduledInterview(selectedCandidate.id)">
+        <h3>Interview Evaluation</h3>
+        <form class="evaluation-form">
+          <div class="rating-categories">
+            <div class="rating-category">
+              <label>Technical Skills:</label>
+              <div class="rating-stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star"
+                      [ngClass]="{ 'filled': star <= evaluation.technicalSkills }"
+                      (click)="setRating('technicalSkills', star)">⭐</span>
+              </div>
+            </div>
+
+            <div class="rating-category">
+              <label>Communication:</label>
+              <div class="rating-stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star"
+                      [ngClass]="{ 'filled': star <= evaluation.communication }"
+                      (click)="setRating('communication', star)">⭐</span>
+              </div>
+            </div>
+
+            <div class="rating-category">
+              <label>Problem Solving:</label>
+              <div class="rating-stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star"
+                      [ngClass]="{ 'filled': star <= evaluation.problemSolving }"
+                      (click)="setRating('problemSolving', star)">⭐</span>
+              </div>
+            </div>
+
+            <div class="rating-category">
+              <label>Culture Fit:</label>
+              <div class="rating-stars">
+                <span *ngFor="let star of [1,2,3,4,5]" 
+                      class="star"
+                      [ngClass]="{ 'filled': star <= evaluation.cultureFit }"
+                      (click)="setRating('cultureFit', star)">⭐</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Interview Notes:</label>
+            <textarea [(ngModel)]="evaluation.notes" 
+                      name="notes" 
+                      rows="6" 
+                      placeholder="Enter detailed feedback about the candidate's performance..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Upload Documents:</label>
+            <div class="file-upload">
+              <input type="file" #fileInput multiple (change)="onFileUpload($event)">
+              <button type="button" class="upload-btn" (click)="fileInput.click()">
+                <span class="icon">📎</span> Upload Files
+              </button>
+              <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
+                <div class="file-item" *ngFor="let file of uploadedFiles">
+                  <span class="file-name">{{file.name}}</span>
+                  <button class="remove-file" (click)="removeFile(file)">×</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="evaluation-actions">
+            <button type="button" class="btn success" (click)="saveEvaluation()">
+              <span class="icon">💾</span> Save Evaluation
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Status Update Section -->
+      <div class="status-update-section">
+        <h3>Update Candidate Status</h3>
+        <div class="status-actions">
+          <button class="status-btn pass" (click)="updateCandidateStatus('Pass to Next Round')">
+            <span class="icon">✅</span> Pass to Next Round
+          </button>
+          <button class="status-btn hold" (click)="updateCandidateStatus('Hold')">
+            <span class="icon">⏸️</span> Keep on Hold
+          </button>
+          <button class="status-btn reject" (click)="updateCandidateStatus('Reject')">
+            <span class="icon">❌</span> Reject
+          </button>
+          <button class="status-btn offer" (click)="updateCandidateStatus('Send Offer')">
+            <span class="icon">🎉</span> Send Offer
+          </button>
+        </div>
+      </div>
+
+      <!-- Interview History -->
+      <div class="interview-history" *ngIf="getInterviewHistory(selectedCandidate.id).length > 0">
+        <h3>Interview History</h3>
+        <div class="history-list">
+          <div class="history-item" *ngFor="let interview of getInterviewHistory(selectedCandidate.id)">
+            <div class="interview-date">{{interview.date}} {{interview.time}}</div>
+            <div class="interview-type">{{interview.type}} - {{interview.mode}}</div>
+            <div class="interview-interviewer">Interviewer: {{interview.interviewer}}</div>
+            <div class="interview-status">Status: {{interview.status}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!selectedCandidate">
+      <div class="empty-content">
+        <span class="empty-icon">🎯</span>
+        <h3>Select a candidate to start interview process</h3>
+        <p>Choose a candidate from the left panel to schedule interviews and record evaluations.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,748 @@
+.send-offer-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Page Header
+.page-header {
+  margin-bottom: 24px;
+  
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1f2937;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+
+// Layout
+.offer-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 24px;
+  height: calc(100vh - 140px);
+}
+
+// Left Panel - Offer Details
+.offer-details-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  
+  .icon {
+    font-size: 18px;
+  }
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+}
+
+// Selected Candidate
+.candidate-section {
+  margin-bottom: 32px;
+}
+
+.candidate-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f0f9ff;
+  border: 2px solid #3b82f6;
+  
+  .candidate-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f3f4f6;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  .candidate-info {
+    flex: 1;
+    
+    .candidate-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    
+    .candidate-title {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+    
+    .candidate-experience {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+  }
+  
+  .selection-badge {
+    .badge {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      
+      &.selected {
+        background: #10b981;
+        color: white;
+      }
+    }
+  }
+}
+
+// Compensation Section
+.compensation-section {
+  margin-bottom: 32px;
+}
+
+.compensation-form {
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      
+      &:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+    }
+  }
+  
+  .currency-input {
+    position: relative;
+    
+    .currency-symbol {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    input {
+      padding-left: 32px;
+    }
+  }
+  
+  .total-package {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .total-label {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .total-amount {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+  }
+}
+
+// Benefits Section
+.benefits-section {
+  margin-bottom: 32px;
+}
+
+.benefits-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.benefit-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+// Right Panel - Preview & Send
+.offer-preview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+// Offer Summary
+.offer-summary-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 24px;
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+}
+
+.summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.metric {
+  text-align: center;
+  
+  .metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3b82f6;
+    margin-bottom: 6px;
+    
+    .total & {
+      color: #1f2937;
+    }
+  }
+  
+  .metric-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  
+  &.total {
+    .metric-value {
+      font-size: 32px;
+      color: #1f2937;
+    }
+  }
+}
+
+// Approval Status
+.approval-status-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 20px;
+}
+
+.approval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+  
+  .approval-badge {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    
+    &.approved {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    &.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+  }
+}
+
+.approval-progress {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f3f4f6;
+    z-index: 1;
+  }
+}
+
+.approval-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  
+  .step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #9ca3af;
+    margin-bottom: 8px;
+  }
+  
+  .step-text {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+  }
+  
+  &.completed .step-icon {
+    background: #10b981;
+    color: white;
+  }
+  
+  &.active .step-icon {
+    background: #3b82f6;
+    color: white;
+  }
+}
+
+// Final Steps
+.final-steps-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 20px;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+  }
+}
+
+.step-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  
+  .step-content {
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    
+    .step-description {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
+  
+  .step-action-btn {
+    padding: 6px 16px;
+    background: white;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    
+    &:hover {
+      background: #f3f4f6;
+    }
+  }
+}
+
+// Communication
+.communication-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 20px;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+}
+
+.option-group {
+  margin-bottom: 16px;
+  
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+}
+
+.delivery-options {
+  display: flex;
+  gap: 16px;
+}
+
+.delivery-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  input[type="radio"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  label {
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+  
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    font-family: inherit;
+  }
+}
+
+.cc-options {
+  display: flex;
+  gap: 16px;
+}
+
+.cc-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  label {
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+}
+
+.attachments-section {
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 12px;
+  }
+}
+
+.attachment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 6px;
+  
+  .attachment-icon {
+    font-size: 16px;
+  }
+  
+  .attachment-name {
+    flex: 1;
+    font-size: 14px;
+    color: #374151;
+  }
+  
+  .attachment-status {
+    font-size: 12px;
+    color: #10b981;
+    font-weight: 500;
+  }
+}
+
+// Send Actions
+.send-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    
+    &.primary {
+      background: #3b82f6;
+      color: white;
+      
+      &:hover:not(:disabled) {
+        background: #2563eb;
+      }
+      
+      &:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+    }
+    
+    &.secondary {
+      background: white;
+      color: #374151;
+      border: 1px solid #d1d5db;
+      
+      &:hover {
+        background: #f3f4f6;
+      }
+    }
+  }
+}
+
+// Status Tracking
+.status-tracking-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 20px;
+  
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 16px;
+  }
+}
+
+.status-timeline {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #f3f4f6;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  
+  &:last-child {
+    padding-bottom: 0;
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f3f4f6;
+  }
+  
+  .timeline-content {
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 2px;
+    }
+    
+    .timeline-time {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+  }
+  
+  &.completed .timeline-marker {
+    background: #10b981;
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .offer-layout {
+    grid-template-columns: 350px 1fr;
+  }
+  
+  .summary-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .offer-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  
+  .offer-details-panel {
+    height: 400px;
+  }
+  
+  .benefits-checkboxes {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .send-offer-container {
+    padding: 16px;
+  }
+  
+  .delivery-options,
+  .cc-options {
+    flex-direction: column;
+  }
+  
+  .send-actions {
+    flex-direction: column;
+  }
+}

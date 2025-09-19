@@ -1,0 +1,656 @@
+.monitor-apps-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+// Page Header
+.page-header {
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1f2937;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+
+// Common Card Styles
+.status-card, .pipeline-card, .alerts-card, .performance-card, 
+.activity-card, .candidates-card, .integration-card, .diversity-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border: 1px solid #f3f4f6;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  
+  .icon-wrapper .icon {
+    font-size: 20px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    
+    &.live {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+  }
+}
+
+// Job Posting Status
+.status-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+
+.metric {
+  .metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #3b82f6;
+    margin-bottom: 8px;
+  }
+  
+  .metric-label {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .metric-trend {
+    font-size: 12px;
+    color: #10b981;
+    font-weight: 500;
+  }
+}
+
+// Pipeline Metrics
+.pipeline-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.pipeline-stage {
+  text-align: center;
+  
+  .stage-count {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+  
+  .stage-label {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+  }
+  
+  .stage-bar {
+    height: 6px;
+    background: #f3f4f6;
+    border-radius: 3px;
+    overflow: hidden;
+    
+    .stage-fill {
+      height: 100%;
+      background: #3b82f6;
+      transition: width 0.3s ease;
+      
+      &.hired {
+        background: #10b981;
+      }
+    }
+  }
+}
+
+// Notifications & Alerts
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid;
+  
+  &.urgent {
+    background: #fef2f2;
+    border-color: #fecaca;
+    
+    .alert-action-btn {
+      background: #ef4444;
+      color: white;
+    }
+  }
+  
+  &.reminder {
+    background: #fef3c7;
+    border-color: #fde68a;
+    
+    .alert-action-btn {
+      background: #f59e0b;
+      color: white;
+    }
+  }
+  
+  &.approval {
+    background: #dbeafe;
+    border-color: #bfdbfe;
+    
+    .alert-action-btn {
+      background: #3b82f6;
+      color: white;
+    }
+  }
+  
+  &.followup {
+    background: #f3e8ff;
+    border-color: #e9d5ff;
+    
+    .alert-action-btn {
+      background: #8b5cf6;
+      color: white;
+    }
+  }
+  
+  .alert-icon {
+    font-size: 20px;
+  }
+  
+  .alert-content {
+    flex: 1;
+    
+    .alert-message {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+    }
+    
+    .alert-count {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
+  
+  .alert-action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+// Performance Metrics
+.performance-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.metric-item {
+  text-align: center;
+  
+  .metric-label {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  
+  .metric-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+  }
+  
+  .metric-status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    
+    &.excellent {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    &.good {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    &.average {
+      background: #fef3c7;
+      color: #92400e;
+    }
+  }
+}
+
+// Activity Timeline
+.activity-timeline {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .activity-time {
+    font-size: 12px;
+    color: #9ca3af;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+  
+  .activity-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    
+    .activity-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      
+      &.new_application {
+        background: #3b82f6;
+      }
+      
+      &.assessment {
+        background: #8b5cf6;
+      }
+      
+      &.document_update {
+        background: #10b981;
+      }
+      
+      &.interview_scheduled {
+        background: #f59e0b;
+      }
+      
+      &.stage_update {
+        background: #06b6d4;
+      }
+      
+      &.verification {
+        background: #84cc16;
+      }
+    }
+    
+    .activity-text {
+      font-size: 14px;
+      color: #374151;
+    }
+  }
+}
+
+// Candidates Table
+.header-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  
+  .filter-select,
+  .search-input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .search-input {
+    min-width: 200px;
+  }
+  
+  .export-btn {
+    padding: 8px 16px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+.candidates-table {
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.5fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 2px solid #f3f4f6;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.5fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+    
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+  
+  .candidate-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .candidate-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #3b82f6;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .candidate-details {
+      .candidate-name {
+        font-weight: 500;
+        color: #1f2937;
+      }
+      
+      .candidate-title {
+        font-size: 12px;
+        color: #6b7280;
+      }
+    }
+  }
+  
+  .score-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    
+    &.excellent {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    &.good {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    &.average {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    &.poor {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+  }
+  
+  .stage-badge {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    
+    &.applied {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    
+    &.screening {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    &.interview {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    &.offer {
+      background: #f3e8ff;
+      color: #7c3aed;
+    }
+    
+    &.hired {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    &.rejected {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+  }
+  
+  .date-cell,
+  .location-cell {
+    font-size: 14px;
+    color: #6b7280;
+  }
+  
+  .actions-cell {
+    display: flex;
+    gap: 8px;
+    
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      
+      &.primary {
+        background: #3b82f6;
+        color: white;
+        border: 1px solid #3b82f6;
+      }
+      
+      &.secondary {
+        background: white;
+        color: #374151;
+        border: 1px solid #d1d5db;
+      }
+      
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+// Integration Status
+.integration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.integration-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  
+  .integration-info {
+    flex: 1;
+    
+    .integration-name {
+      font-weight: 500;
+      color: #1f2937;
+    }
+    
+    .integration-sync {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
+  
+  .integration-status {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    
+    &.connected {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    &.syncing {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    &.error {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+  }
+  
+  .integration-count {
+    font-size: 12px;
+    color: #10b981;
+    font-weight: 500;
+  }
+}
+
+// Diversity Stats
+.diversity-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.diversity-section {
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 12px;
+  }
+  
+  .stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    color: #6b7280;
+  }
+  
+  .diversity-score {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    
+    &.good {
+      background: #dcfce7;
+      color: #166534;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .monitor-apps-container {
+    padding: 16px;
+  }
+  
+  .status-metrics,
+  .performance-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .pipeline-stages {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .status-metrics,
+  .performance-metrics,
+  .pipeline-stages,
+  .diversity-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .candidates-table {
+    .table-header,
+    .table-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    
+    .candidate-cell {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  .header-controls {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .search-input {
+      min-width: auto;
+    }
+  }
+}
